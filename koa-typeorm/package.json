@@ -7,9 +7,14 @@
   "author": "aguestuser",
   "license": "APGL-3.0",
   "private": false,
-   "engines": {
-      "node": "10.4.0"
-   },
+  "scripts": {
+    "test": "mocha --reporter spec --compilers ts:ts-node/register 'src/test/**/*.spec.ts'",
+    "build": "tsc",
+    "start": "tsc && node build/main/index.js"
+  },
+  "engines": {
+    "node": "10.4.0"
+  },
   "dependencies": {
     "lodash": "^4.17.10",
     "pg": "^7.4.3",

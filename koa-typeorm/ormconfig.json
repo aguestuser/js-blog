@@ -1,0 +1,22 @@
+{
+   "type": "postgres",
+   "host": "localhost",
+   "port": 5432,
+   "database": "jsblog_koa",
+   "synchronize": false,
+   "logging": true,
+   "entities": [
+      "build/main/entity/**/*.js"
+   ],
+   "migrations": [
+      "build/main/migration/**/*.ts"
+   ],
+   "subscribers": [
+      "build/main/subscriber/**/*.ts"
+   ],
+   "cli": {
+      "entitiesDir": "build/main/entity",
+      "migrationsDir": "build/main/migration",
+      "subscribersDir": "build/main/subscriber"
+   }
+}

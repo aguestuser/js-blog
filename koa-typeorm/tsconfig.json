@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2017"
+    ],
+    "types": ["node", "mocha", "chai", "sinon", "lodash"],
+    "target": "es2017",
+    "module": "system",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true
+  }
+}

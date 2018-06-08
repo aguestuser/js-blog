@@ -1,0 +1,10 @@
+{
+  "name": "koa-typeorm",
+  "version": "0.0.1",
+  "description": "toy project for evaluating koa/typeorm stack",
+  "main": "src/main/index.js",
+  "repository": "https://github.com/aguestuser/js-blog",
+  "author": "aguestuser",
+  "license": "APGL-3.0",
+  "private": false
+}

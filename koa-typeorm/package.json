@@ -6,5 +6,30 @@
   "repository": "https://github.com/aguestuser/js-blog",
   "author": "aguestuser",
   "license": "APGL-3.0",
-  "private": false
+  "private": false,
+   "engines": {
+      "node": "10.4.0"
+   },
+  "dependencies": {
+    "lodash": "^4.17.10",
+    "pg": "^7.4.3",
+    "reflect-metadata": "^0.1.12",
+    "typeorm": "^0.2.7",
+    "typescript": "^2.9.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.3",
+    "@types/lodash": "^4.14.109",
+    "@types/mocha": "^5.2.1",
+    "@types/node": "^10.3.2",
+    "@types/sinon": "^5.0.1",
+    "@types/sinon-chai": "^2.7.32",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "sinon": "^5.1.1",
+    "sinon-chai": "^3.1.0",
+    "ts-node": "^6.1.0",
+    "tslint": "^5.10.0",
+    "tslint-eslint-rules": "^5.3.1"
+  }
 }

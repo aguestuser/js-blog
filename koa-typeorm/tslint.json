@@ -13,7 +13,10 @@
     "ordered-imports": false,
     "no-trailing-whitespace": false,
     "object-literal-sort-keys": false,
-    "indent": [true, "spaces", 2]
+    "indent": [true, "spaces", 2],
+    "no-unused-expression": false,
+    "arrow-parens": false,
+    "one-variable-per-declaration": false
   },
   "rulesDirectory": []
 }

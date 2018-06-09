@@ -6,17 +6,17 @@
    "synchronize": false,
    "logging": true,
    "entities": [
-      "build/main/entity/**/*.js"
+      "src/main/entity/**/*.ts"
    ],
    "migrations": [
-      "build/main/migration/**/*.ts"
+      "src/main/migration/**/*.ts"
    ],
    "subscribers": [
-      "build/main/subscriber/**/*.ts"
+      "src/main/subscriber/**/*.ts"
    ],
    "cli": {
-      "entitiesDir": "build/main/entity",
-      "migrationsDir": "build/main/migration",
-      "subscribersDir": "build/main/subscriber"
+      "entitiesDir": "src/main/entity",
+      "migrationsDir": "src/main/migration",
+      "subscribersDir": "src/main/subscriber"
    }
 }

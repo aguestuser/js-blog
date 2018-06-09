@@ -8,6 +8,8 @@
   "license": "APGL-3.0",
   "private": false,
   "scripts": {
+    "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
+    "genMigration": "ts-node ./node_modules/typeorm/cli.js migration:generate",
     "test": "mocha --reporter spec --compilers ts:ts-node/register 'src/test/**/*.spec.ts'",
     "build": "tsc",
     "start": "tsc && node build/main/index.js"

@@ -1,11 +1,16 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeRemove, getRepository, AfterRemove} from "typeorm"
 import {Post} from "./post"
 
+export interface UserLike {
+  id?: number,
+  username: string,
+}
+
 @Entity()
 export class User {
 
   @PrimaryGeneratedColumn()
-  id: number
+  id?: number
 
   @Column()
   username: string

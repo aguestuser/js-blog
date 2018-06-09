@@ -1,15 +1,14 @@
 import "reflect-metadata"
 import {expect} from "chai"
 import {User} from "../main/entity/user"
-import {forEach, get, omit, clone} from "lodash"
+import {forEach, get, clone} from "lodash"
 import {createConnection, getRepository} from "typeorm"
 import {stripId} from "./helpers/db"
 import {Post} from "../main/entity/post"
+import {userFields} from "./fixtures/users"
+import {postFields} from "./fixtures/posts"
 
 describe("User entity", () => {
-  const userFields = { username: "pynchon" }
-  const postFields = { title: "gravity's rainbow...", body: "a screaming came across the sky" }
-
   let connection, userRepo, postRepo
 
   before(async () => {
@@ -17,21 +16,28 @@ describe("User entity", () => {
     connection = await createConnection()
     userRepo = getRepository(User)
     postRepo = getRepository(Post)
-    await userRepo.delete({})
     expect(await userRepo.count()).to.eql(0)
+    expect(await postRepo.count()).to.eql(0)
   })
 
-  after(async () => await connection.close())
+  afterEach(async () => {
+    await postRepo.delete({})
+    await userRepo.delete({})
+  })
+
+  after(async () => {
+    await connection.close()
+  })
 
   it("has correct fields", async () => {
-    const user = await userRepo.save(userFields)
+    const user = await userRepo.save(clone(userFields))
     forEach(userFields, (v, k) => expect(get(user, k)).to.eql(v))
   })
 
   describe("associations", () => {
-    before(async () => {
+    beforeEach(async () => {
       await userRepo.save({
-        ...userFields,
+        ...clone(userFields),
         posts: [clone(postFields)],
       })
     })

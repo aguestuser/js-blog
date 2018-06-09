@@ -4,10 +4,11 @@ import {forEach, omit, clone} from "lodash"
 import {createConnection, getRepository} from "typeorm"
 import {Post} from "../main/entity/post"
 import {User} from "../main/entity/user"
+import {postFields} from "./fixtures/posts"
+import {userFields} from "./fixtures/users"
+import {stripId} from "./helpers/db"
 
 describe("Post entity", () => {
-  const userFields = { username: "pynchon" }
-  const postFields = { title: "gravity's rainbow...", body: "a screaming came across the sky" }
   let connection, postRepo, userRepo
 
   before(async () => {
@@ -15,28 +16,33 @@ describe("Post entity", () => {
     connection = await createConnection()
     postRepo = getRepository(Post)
     userRepo = getRepository(User)
-    await postRepo.delete({})
     expect(await postRepo.count()).to.eql(0)
+    expect(await userRepo.count()).to.eql(0)
   })
 
-  after(async () => await connection.close())
+  afterEach(async () => {
+    await postRepo.delete({})
+    await userRepo.delete({})
+  })
+
+  after(async () => {
+    await connection.close()
+  })
 
   it("has correct fields", async () => {
-    const post = await postRepo.save(postFields)
+    const post = await postRepo.save(clone(postFields))
     forEach(postFields, (v, k) => expect(post[k]).to.eql(v))
   })
 
   describe("associations", () => {
-    before(async () => {
+    beforeEach(async () => {
       const author = await userRepo.save(clone(userFields))
-      await postRepo.save(
-        postRepo.create({...postFields, author })
-      )
+      await postRepo.save(postRepo.create({...clone(postFields), author }))
     })
 
     it("has one author", async () => {
-      const post = await postRepo.findOne({...postFields, relations: ["author"] })
-      expect(omit(post.author, ["id"])).to.eql(userFields)
+      const post = await postRepo.findOne({ ...postFields, relations: ["author"] })
+      expect(stripId(post.author)).to.eql(userFields)
     })
   })
 })

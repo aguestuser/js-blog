@@ -1,6 +1,12 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm"
 import {User} from "./user"
 
+export interface PostLike {
+  id?: number,
+  title: string,
+  body: string,
+}
+
 @Entity()
 export class Post {
 

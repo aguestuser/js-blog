@@ -1,5 +1,5 @@
 import {expect} from "chai"
-import {run} from "../../main/server/run"
+import {run} from "../../main/server/index"
 import request = require("supertest")
 import {pick} from "lodash"
 

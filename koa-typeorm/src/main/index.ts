@@ -1,3 +1,3 @@
-import {run} from "./server/run"
+import {run} from "./server"
 
 run().catch(console.error)

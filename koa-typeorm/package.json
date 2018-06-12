@@ -12,7 +12,7 @@
     "genMigration": "ts-node ./node_modules/typeorm/cli.js migration:generate",
     "test": "NODE_ENV=test mocha --reporter spec --compilers ts:ts-node/register 'src/test/**/*.spec.ts'",
     "build": "tsc",
-    "start": "NODE_ENV=dev node build/main/server/index.js"
+    "start": "NODE_ENV=dev node build/main/index.js"
   },
   "engines": {
     "node": "10.4.0"

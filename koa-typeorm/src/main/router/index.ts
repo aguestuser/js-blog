@@ -8,7 +8,24 @@ export const connectRouter = (app: Application): void => {
 
 const router = new Router()
 
-router.get("/", async ctx => {
-  const userCount = await ctx.db.getRepository(User).count()
-  ctx.body = { meta: `Hello world! There are ${userCount} users.` }
-})
+router
+  .get("/", async ctx => {
+    const userCount = await ctx.db.getRepository(User).count()
+    ctx.body = { meta: `Hello world! There are ${userCount} users.` }
+  })
+  .get("/users/:id", async ctx => {
+    const user = await ctx.db.getRepository(User).findOne({
+      id: ctx.params.id ,
+      relations: ["posts"],
+    })
+    ctx.body = {
+      data: {
+        user: {
+          ...user,
+          posts: user.posts.map(
+            p => `localhost:8081/users/${user.id}/posts/${p.id}`,
+          ),
+        },
+      },
+    }
+  })

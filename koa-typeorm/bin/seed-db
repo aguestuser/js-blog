@@ -1,7 +1,9 @@
 #! /usr/bin/env bash
 
-echo "--- creating dev db"
-psql -c 'create database jsblog_koa_typeorm_dev;'
+pushd `pwd` # save original path
+cd `dirname "$0"` # cd to script path
 
-echo "--- creating test db"
-psql -c 'create database jsblog_koa_typeorm_test;'
+echo "--- seeding dev db"
+psql -d jsblog_koa_typeorm_dev -f <(tr -d '\n' < ./seed.sql )
+
+popd

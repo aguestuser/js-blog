@@ -1,22 +1,47 @@
-{
-   "type": "postgres",
-   "host": "localhost",
-   "port": 5432,
-   "database": "jsblog_koa",
-   "synchronize": false,
-   "logging": true,
-   "entities": [
+[
+  {
+    "name": "test",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "database": "jsblog_koa_typeorm_test",
+    "synchronize": false,
+    "entities": [
       "src/main/entity/**/*.ts"
-   ],
-   "migrations": [
+    ],
+    "migrations": [
       "src/main/migration/**/*.ts"
-   ],
-   "subscribers": [
+    ],
+    "subscribers": [
       "src/main/subscriber/**/*.ts"
-   ],
-   "cli": {
+    ],
+    "cli": {
       "entitiesDir": "src/main/entity",
       "migrationsDir": "src/main/migration",
       "subscribersDir": "src/main/subscriber"
-   }
-}
+    }
+  },
+  {
+    "name": "dev",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "database": "jsblog_koa_typeorm_dev",
+    "synchronize": false,
+    "logging": true,
+    "entities": [
+      "build/main/entity/**/*.js"
+    ],
+    "migrations": [
+      "build/main/migration/**/*.js"
+    ],
+    "subscribers": [
+      "build/main/subscriber/**/*.js"
+    ],
+    "cli": {
+      "entitiesDir": "build/main/entity",
+      "migrationsDir": "build/main/migration",
+      "subscribersDir": "build/main/subscriber"
+    }
+  }
+]

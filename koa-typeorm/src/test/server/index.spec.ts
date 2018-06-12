@@ -1,10 +1,12 @@
 import {expect} from "chai"
-import {server} from "../../main/server"
+import {run} from "../../main/server/run"
 import request = require("supertest")
 import {pick} from "lodash"
 
 describe("server", () => {
-  after(() => server.close())
+  let db, server
+  before (async () => ({db, server} = await run()))
+  after( async () => { db.close(); server.close() })
 
   it("says hello", async () => {
     const resp = await request(server).get("/")
@@ -12,7 +14,7 @@ describe("server", () => {
     .to.eql({
       status: 200,
       type: "application/json",
-      body: { meta: "Hello world!" },
+      body: { meta: "Hello world! There are 0 users." },
     })
   })
 })

@@ -9,13 +9,12 @@ import {userFields} from "./fixtures/users"
 import {stripId} from "./helpers/db"
 
 describe("Post entity", () => {
-  let connection, postRepo, userRepo
+  let db, postRepo, userRepo
 
   before(async () => {
-    // TODO: make a test config that doesn't log all sql, pass it here
-    connection = await createConnection()
-    postRepo = getRepository(Post)
-    userRepo = getRepository(User)
+    db = await createConnection("test")
+    postRepo = db.getRepository(Post)
+    userRepo = db.getRepository(User)
     expect(await postRepo.count()).to.eql(0)
     expect(await userRepo.count()).to.eql(0)
   })
@@ -26,7 +25,7 @@ describe("Post entity", () => {
   })
 
   after(async () => {
-    await connection.close()
+    await db.close()
   })
 
   it("has correct fields", async () => {

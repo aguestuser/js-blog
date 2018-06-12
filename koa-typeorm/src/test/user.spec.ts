@@ -1,8 +1,8 @@
 import "reflect-metadata"
 import {expect} from "chai"
 import {User} from "../main/entity/user"
-import {forEach, get, clone} from "lodash"
-import {createConnection, getRepository} from "typeorm"
+import {clone, forEach, get} from "lodash"
+import {createConnection} from "typeorm"
 import {stripId} from "./helpers/db"
 import {Post} from "../main/entity/post"
 import {userFields} from "./fixtures/users"
@@ -12,10 +12,10 @@ describe("User entity", () => {
   let connection, userRepo, postRepo
 
   before(async () => {
-    // TODO: make a test config that doesn't log all sql, pass it here
-    connection = await createConnection()
-    userRepo = getRepository(User)
-    postRepo = getRepository(Post)
+
+    connection = await createConnection("test")
+    userRepo = connection.getRepository(User)
+    postRepo = connection.getRepository(Post)
     expect(await userRepo.count()).to.eql(0)
     expect(await postRepo.count()).to.eql(0)
   })

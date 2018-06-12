@@ -1,3 +1,7 @@
 #! /usr/bin/env bash
 
-psql -c 'create database jsblog_koa;'
+echo "--- creating dev db"
+psql -c 'create database jsblog_koa_typeorm_dev;'
+
+echo "--- creating test db"
+psql -c 'create database jsblog_koa_typeorm_test;'

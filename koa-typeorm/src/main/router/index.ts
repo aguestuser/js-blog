@@ -16,7 +16,7 @@ router
   .get("/users/:id", async ctx => {
     const user = await ctx.db.getRepository(User).findOne({
       id: ctx.params.id ,
-      relations: ["posts"],
+      relations: ["posts", "followers", "followees"],
     })
     ctx.body = {
       data: {
@@ -24,7 +24,13 @@ router
           ...user,
           posts: user.posts.map(
             p => `localhost:8081/users/${user.id}/posts/${p.id}`,
-          ),
+          ).sort(),
+          followers: user.followers.map(
+            f => `localhost:8081/users/${user.id}/followers/${f.id}`,
+          ).sort(),
+          followees: user.followees.map(
+            f => `localhost:8081/users/${user.id}/followees/${f.id}`,
+          ).sort(),
         },
       },
     }

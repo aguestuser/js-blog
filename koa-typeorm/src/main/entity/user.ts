@@ -1,5 +1,16 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeRemove, getRepository, AfterRemove} from "typeorm"
+import {
+  AfterInsert,
+  Column,
+  Entity,
+  getConnection,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm"
+import config from "../../config"
 import {Post} from "./post"
+import {flow} from "lodash"
 
 export interface UserLike {
   id?: number,
@@ -16,7 +27,18 @@ export class User {
   username: string
 
   @OneToMany(type => Post, post => post.author, {
-    cascade: true,
+    cascade: ["insert", "update", "remove"],
   })
-  posts: [Post]
+  posts: Post[]
+
+  @ManyToMany(type => User, follower => follower.followees, {
+    cascade: ["insert"],
+  })
+  @JoinTable()
+  followers: User[]
+
+  @ManyToMany(type => User, followee => followee.followers, {
+    cascade: ["insert"],
+  })
+  followees: User[]
 }

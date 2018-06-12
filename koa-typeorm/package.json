@@ -5,19 +5,20 @@
   "main": "src/main/index.js",
   "repository": "https://github.com/aguestuser/js-blog",
   "author": "aguestuser",
-  "license": "APGL-3.0",
+  "license": "AGPL-3.0",
   "private": false,
   "scripts": {
     "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "genMigration": "ts-node ./node_modules/typeorm/cli.js migration:generate",
-    "test": "mocha --reporter spec --compilers ts:ts-node/register 'src/test/**/*.spec.ts'",
+    "test": "NODE_ENV=test mocha --reporter spec --compilers ts:ts-node/register 'src/test/**/*.spec.ts'",
     "build": "tsc",
-    "start": "tsc && node build/main/index.js"
+    "start": "NODE_ENV=dev node build/main/server/index.js"
   },
   "engines": {
     "node": "10.4.0"
   },
   "dependencies": {
+    "global": "^4.3.2",
     "koa": "^2.5.1",
     "koa-router": "^7.4.0",
     "lodash": "^4.17.10",
@@ -35,6 +36,7 @@
     "@types/node": "^10.3.2",
     "@types/sinon": "^5.0.1",
     "@types/sinon-chai": "^2.7.32",
+    "@types/superagent": "^3.8.0",
     "@types/supertest": "^2.0.4",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",

@@ -7,6 +7,9 @@
   "author": "aguestuser",
   "license": "AGPL-3.0",
   "private": false,
+  "engines": {
+    "node": "10.4.0"
+  },
   "dependencies": {
     "express": "^4.16.3",
     "lodash": "^4.17.10",

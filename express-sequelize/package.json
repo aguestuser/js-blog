@@ -10,6 +10,11 @@
   "engines": {
     "node": "10.4.0"
   },
+  "scripts": {
+    "test": "NODE_ENV=test mocha --reporter spec --compilers ts:ts-node/register 'src/test/**/*.spec.ts'",
+    "build": "tsc",
+    "start": "NODE_ENV=dev node build/main/index.js"
+  },
   "dependencies": {
     "express": "^4.16.3",
     "lodash": "^4.17.10",

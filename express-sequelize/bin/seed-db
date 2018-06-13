@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+pushd `pwd` # save original path
+cd `dirname "$0"` # cd to script path
+
+echo "--- seeding dev db"
+psql -d jsblog_koa_typeorm_dev -f <(tr -d '\n' < ./seed.sql )
+
+popd

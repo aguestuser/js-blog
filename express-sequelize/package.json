@@ -2,7 +2,7 @@
   "name": "express-sequelize",
   "version": "0.0.1",
   "description": "toy project for assessing express-sequelize js stack",
-  "main": "src/main/index.js",
+  "main": "src/index.js",
   "repository": "https://github.com/aguestuser/js-blog",
   "author": "aguestuser",
   "license": "AGPL-3.0",
@@ -11,9 +11,9 @@
     "node": "10.4.0"
   },
   "scripts": {
-    "test": "NODE_ENV=test mocha --reporter spec --compilers ts:ts-node/register 'src/test/**/*.spec.ts'",
+    "test": "NODE_ENV=test mocha --reporter spec --compilers ts:ts-node/register 'test/**/*.spec.ts'",
     "build": "tsc",
-    "start": "NODE_ENV=dev node build/main/index.js"
+    "start": "NODE_ENV=dev node build/index.js"
   },
   "dependencies": {
     "express": "^4.16.3",
@@ -37,6 +37,7 @@
     "@types/typescript": "^2.0.0",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
+    "sequelize-cli": "^4.0.0",
     "sinon": "^6.0.0",
     "sinon-chai": "^3.2.0",
     "supertest": "^3.1.0",

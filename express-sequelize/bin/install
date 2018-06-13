@@ -24,6 +24,7 @@ yarn add \
      @types/superagent \
      chai \
      mocha \
+     sequelize-cli \
      sinon \
      sinon-chai \
      supertest \

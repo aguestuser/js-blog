@@ -1,0 +1,39 @@
+{
+  "name": "express-sequelize",
+  "version": "0.0.1",
+  "description": "toy project for assessing express-sequelize js stack",
+  "main": "src/main/index.js",
+  "repository": "https://github.com/aguestuser/js-blog",
+  "author": "aguestuser",
+  "license": "AGPL-3.0",
+  "private": false,
+  "dependencies": {
+    "express": "^4.16.3",
+    "lodash": "^4.17.10",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.37.10",
+    "typescript": "^2.9.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.3",
+    "@types/express": "^4.16.0",
+    "@types/lodash": "^4.14.109",
+    "@types/mocha": "^5.2.2",
+    "@types/pg": "^7.4.9",
+    "@types/sequelize": "^4.27.20",
+    "@types/sinon": "^5.0.1",
+    "@types/sinon-chai": "^2.7.32",
+    "@types/superagent": "^3.8.0",
+    "@types/supertest": "^2.0.4",
+    "@types/typescript": "^2.0.0",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "sinon": "^6.0.0",
+    "sinon-chai": "^3.2.0",
+    "supertest": "^3.1.0",
+    "ts-node": "^6.1.1",
+    "tslint": "^5.10.0",
+    "tslint-eslint-rules": "^5.3.1"
+  }
+}

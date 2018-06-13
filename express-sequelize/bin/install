@@ -1,0 +1,33 @@
+#! /usr/bin/env bash
+
+# add dependencies
+yarn add \
+     express \
+     lodash \
+     pg \
+     pg-hstore \
+     sequelize \
+     typescript
+
+# add dev dependencies
+yarn add \
+     @types/chai \
+     @types/express \
+     @types/lodash \
+     @types/mocha \
+     @types/pg \
+     @types/sequelize \
+     @types/sinon \
+     @types/sinon-chai \
+     @types/supertest \
+     @types/typescript \
+     @types/superagent \
+     chai \
+     mocha \
+     sinon \
+     sinon-chai \
+     supertest \
+     ts-node \
+     tslint \
+     tslint-eslint-rules \
+     --dev

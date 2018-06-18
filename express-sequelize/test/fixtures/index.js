@@ -31,3 +31,10 @@ export const postsAttrs = [
     body: "the ones who play god without permission. i'm going to take them down. all of them."
   }
 ]
+
+export const followersAttrs = usersAttrs.slice(1)
+
+export const followeesAttrs = [
+  { username: "joyce", email: "joyce@riseup.net" },
+  { username: "kafka", email: "kakfa@riseup.net" }
+]

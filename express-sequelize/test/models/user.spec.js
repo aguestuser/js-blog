@@ -1,7 +1,7 @@
 import {expect} from "chai"
 import {pick, keys, map, slice, times} from 'lodash'
 import db, {sequelize, Sequelize} from "../../src/models"
-import {postAttrs, postsAttrs, userAttrs, usersAttrs} from "../fixtures"
+import {followeesAttrs, followersAttrs, postAttrs, postsAttrs, userAttrs, usersAttrs} from "../fixtures"
 const {Op} = Sequelize
 
 describe("user model", () => {
@@ -120,37 +120,67 @@ describe("user model", () => {
       expect(await db.user.count()).to.eql(1)
     })
   })
-  
+
   describe("associations", () => {
     let user
+
     before(async () => {
       user = await db.user.create({
         ...userAttrs,
         posts: postsAttrs,
+        followers: followersAttrs,
+        followees: followeesAttrs,
       },{
         include: [{
           association: db.user.posts,
-          include: [db.post.user]
+        },{
+          association: db.user.followers,
+        }, {
+          association: db.user.followees,
         }]
       })
     })
+
     after(async () => {
       await Promise.all([
         db.post.destroy({where: {}}),
         db.user.destroy({where: {}})
       ])
     })
-    
+
     it("has many posts", () => {
       expect(
-        map(user.posts, p => pick(p, keys(postAttrs)))
+        user.posts.map(p => pick(p, keys(postAttrs)))
       ).to.eql(postsAttrs)
     })
-    
+
     it("deletes associated posts when deleted", async () => {
       const count = await db.post.count()
       await user.destroy()
       expect(await db.post.count()).to.eql(count - 3)
+    })
+
+    it("has many followers", () => {
+      expect(
+        user.followers.map(_ => pick(_, keys(userAttrs)))
+      ).to.eql(followersAttrs)
+    })
+
+    it("has many followees", () => {
+      expect(
+        user.followees.map(_ => pick(_, keys(userAttrs)))
+      ).to.eql(followeesAttrs)
+    })
+
+    it("does not delete followers or followees when deleting user", async () => {
+      const count = await db.user.count()
+      await user.destroy()
+      expect(await db.user.count()).to.eql(count - 1)
+    })
+
+    it("has many followings", async () => {
+      expect((await user.getFollowingsOf()).length).to.eql(2)
+      expect((await user.getFollowingsBy()).length).to.eql(2)
     })
   })
 })

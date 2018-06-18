@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {})
 
   post.associate = (db) => {
-    post.user = post.belongsTo(db.user)
+    post.author = post.belongsTo(db.user, { as: "author" })
   }
 
   return post

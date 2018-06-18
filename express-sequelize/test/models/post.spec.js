@@ -1,7 +1,7 @@
 import {expect} from "chai"
 import db, {sequelize, Sequelize} from "../../src/models"
 import {postAttrs, userAttrs} from "../fixtures"
-import {pick, keys} from "lodash"
+import {pick, keys, get, clone} from "lodash"
 
 describe("post model", () => {
   // before(async () => { await sequelize.authenticate() })
@@ -26,10 +26,10 @@ describe("post model", () => {
     before(async () => {
       post = await db.post.create({
         ...postAttrs,
-        user: userAttrs
+        author: clone(userAttrs),
       },{
         include: [{
-          association: db.post.user,
+          association: db.post.author,
           include: [ db.user.posts ]
         }]
       })
@@ -41,8 +41,20 @@ describe("post model", () => {
       ])
     })
 
-    it("belongs to a user", () => {
-      expect(pick(post.user.dataValues, keys(userAttrs))).to.eql(userAttrs)
+    it("belongs to an author (eager-loaded)", () => {
+      expect(pick(post.author, keys(userAttrs)))
+        .to.eql(userAttrs)
+    })
+
+    it("belongs to an author (lazy-loaded)", async () => {
+      expect(await post.getAuthor())
+        .to.eql(await db.user.findOne({ where: userAttrs }))
+    })
+
+    it("does not delete author when deleted", async () => {
+      const userCount = await db.user.count()
+      post.destroy()
+      expect(await db.user.count()).to.eql(userCount)
     })
   })
 })

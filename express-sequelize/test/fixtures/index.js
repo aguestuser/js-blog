@@ -14,3 +14,20 @@ export const usersAttrs = [
     email: "eliot@evilcorp.biz",
   }
 ]
+
+export const postAttrs = {
+  title: "gravity's rainbow",
+  body: "a screaming came across the sky",
+}
+
+export const postsAttrs = [
+  postAttrs,
+  {
+    title: "living my life",
+    body: "if i can't dance i don't want to be part of your revolution",
+  },
+  {
+    title: "fsociety manifesto",
+    body: "the ones who play god without permission. i'm going to take them down. all of them."
+  }
+]

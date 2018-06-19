@@ -1,22 +1,22 @@
+import {describe, beforeEach, afterEach, it} from "mocha"
 import {expect} from "chai"
-import {pick, keys, map, slice, times} from 'lodash'
-import db, {Sequelize} from "../../src/models"
+import {pick, keys, map, slice, times} from "lodash"
+import db from "../../src/models"
+import {Op} from "sequelize"
 import {followeesAttrs, followersAttrs, postAttrs, postsAttrs, userAttrs, usersAttrs} from "../fixtures"
-const {Op} = Sequelize
+import {UserAttributes} from "../../src/models/User"
 
-describe("user model", () => {
-  let userCount
-  before(async () => {
-    userCount = await db.User.count()
-  })
-  
+describe("User model", () => {
+
   describe("CRUD operations", () => {
     let user
-    beforeEach(async () => user = await db.User.create(userAttrs))
+    beforeEach(async () => {
+      user = await db.User.create(userAttrs)
+    })
     afterEach(async () => await db.User.destroy({ where: {}}))
 
     it("creates a user", async () => {
-      expect(await db.User.count()).to.eql(userCount + 1)
+      expect(await db.User.count()).to.eql(1)
       expect(pick(user.dataValues, keys(userAttrs))).to.eql(userAttrs);
       ["id", "createdAt", "updatedAt"].forEach(attr => expect(user[attr]).to.exist)
     })
@@ -51,7 +51,7 @@ describe("user model", () => {
 
       it("deletes a user with an instance method", async () => {
         await user.destroy()
-        expect(await db.User.count()).to.eql(userCount -1)
+        expect(await db.User.count()).to.eql(userCount - 1)
       })
 
       it("deletes a user with a static method", async () => {
@@ -62,8 +62,11 @@ describe("user model", () => {
   })
 
   describe("bulk CRUD operations", () => {
-    let users
-    beforeEach(async () => users = await db.User.bulkCreate(usersAttrs))
+    let users, userCount
+    beforeEach(async () => {
+      userCount = await db.User.count()
+      users = await db.User.bulkCreate(usersAttrs)
+    })
     afterEach(async () => await db.User.destroy({ where: {}}))
 
     it("creates many users", async () => {
@@ -73,23 +76,23 @@ describe("user model", () => {
     it("retrieves all users", async () => {
       const foundUsers = await db.User.findAll()
       expect(
-        map(foundUsers, u => pick(u.dataValues, keys(userAttrs)))
+        map(foundUsers, u => pick(u, keys(userAttrs))),
       ).to.eql(usersAttrs)
     })
 
     it("retrieves all users matching search criteria", async () => {
       const foundUsers = await db.User.findAll({
-        where: { email: { [Op.like]: "%riseup%" } }
+        where: { email: { [Op.like]: "%riseup%" } },
       })
       expect(
-        map(foundUsers, u => pick(u.dataValues, keys(userAttrs)))
-      ).to.eql(slice(usersAttrs,0,2))
+        map(foundUsers, u => pick(u, keys(userAttrs))),
+      ).to.eql(slice(usersAttrs, 0, 2))
     })
 
     it("updates all users", async () => {
       await db.User.update(
         { email: "foo@bar.com" },
-        { where: {} }
+        { where: {} },
       )
       expect(map(await db.User.findAll(), u => u.email))
         .to.eql(times(3, () => "foo@bar.com"))
@@ -97,25 +100,25 @@ describe("user model", () => {
 
     it("updates many users", async () => {
       const updatedUsers = await db.User.findAll({
-        where: { email: { [Op.like]: "%riseup%" } }
-      }).then(users => Promise.all(
-          map(users, u => u.update({email: u.email.replace("riseup", "microsoft")}))
-        )
+        where: { email: { [Op.like]: "%riseup%" } },
+      }).then(us => Promise.all(
+          map(us, u => u.update({email: u.email.replace("riseup", "microsoft")})),
+        ),
       )
 
-      expect(map(updatedUsers, u => u.email)).to.eql([
+      expect(map(updatedUsers, (u: UserAttributes) => u.email)).to.eql([
         "pynchon@microsoft.net",
-        "egoldman@microsoft.net"
+        "egoldman@microsoft.net",
       ])
 
       expect(await db.User.count({
-        where: { email: { [Op.like]: "%microsoft%" }}
+        where: { email: { [Op.like]: "%microsoft%" }},
       })).to.eql(2)
     })
 
     it("deletes many users", async () => {
       await db.User.destroy({
-        where: { email: { [Op.like]: "%riseup%" } }
+        where: { email: { [Op.like]: "%riseup%" } },
       })
       expect(await db.User.count()).to.eql(1)
     })
@@ -130,27 +133,27 @@ describe("user model", () => {
         posts: postsAttrs,
         followers: followersAttrs,
         followees: followeesAttrs,
-      },{
+      }, {
         include: [{
-          association: db.User.posts,
-        },{
-          association: db.User.followers,
+          model: db.Post, as: "posts",
         }, {
-          association: db.User.followees,
-        }]
+          model: db.User, as: "followers",
+        }, {
+          model: db.User, as: "followees",
+        }],
       })
     })
 
     afterEach(async () => {
       await Promise.all([
         db.Post.destroy({where: {}}),
-        db.User.destroy({where: {}})
+        db.User.destroy({where: {}}),
       ])
     })
 
     it("has many posts", () => {
       expect(
-        user.posts.map(p => pick(p, keys(postAttrs)))
+        user.posts.map(p => pick(p, keys(postAttrs))),
       ).to.eql(postsAttrs)
     })
 
@@ -162,13 +165,13 @@ describe("user model", () => {
 
     it("has many followers", () => {
       expect(
-        user.followers.map(_ => pick(_, keys(userAttrs)))
+        user.followers.map(_ => pick(_, keys(userAttrs))),
       ).to.eql(followersAttrs)
     })
 
     it("has many followees", () => {
       expect(
-        user.followees.map(_ => pick(_, keys(userAttrs)))
+        user.followees.map(_ => pick(_, keys(userAttrs))),
       ).to.eql(followeesAttrs)
     })
 
@@ -187,9 +190,8 @@ describe("user model", () => {
     })
 
     it("has many followings", async () => {
-      expect(await db.User.followings(db, user).count()).to.eql(4)
       // TODO: test this on following model
-      expect(await db.Following.scope({ method: ['forUser', user]}).count()).to.eql(4)
+      expect(await db.Following.scope({ method: ["forUser", user]}).count()).to.eql(4)
     })
   })
 })

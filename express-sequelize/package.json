@@ -11,7 +11,7 @@
     "node": "10.4.0"
   },
   "scripts": {
-    "test": "NODE_ENV=test mocha --reporter spec --require @babel/register 'test/**/*.spec.js'",
+    "test": "NODE_ENV=test mocha --reporter spec --require ts-node/register 'test/**/*.spec.ts'",
     "build": "tsc",
     "start": "NODE_ENV=dev node build/index.js"
   },

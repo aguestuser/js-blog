@@ -1,9 +1,12 @@
-export const userAttrs = {
+import {UserAttributes} from "../../src/models/User"
+import {PostAttributes} from '../../src/models/Post'
+
+export const userAttrs: UserAttributes = {
   username: "pynchon",
   email: "pynchon@riseup.net",
 }
 
-export const usersAttrs = [
+export const usersAttrs: UserAttributes[] = [
   userAttrs,
   {
     username: "egoldman",
@@ -15,12 +18,12 @@ export const usersAttrs = [
   }
 ]
 
-export const postAttrs = {
+export const postAttrs: PostAttributes = {
   title: "gravity's rainbow",
   body: "a screaming came across the sky",
 }
 
-export const postsAttrs = [
+export const postsAttrs: PostAttributes[] = [
   postAttrs,
   {
     title: "living my life",
@@ -32,9 +35,9 @@ export const postsAttrs = [
   }
 ]
 
-export const followersAttrs = usersAttrs.slice(1)
+export const followersAttrs: UserAttributes[] = usersAttrs.slice(1)
 
-export const followeesAttrs = [
+export const followeesAttrs: UserAttributes[] = [
   { username: "joyce", email: "joyce@riseup.net" },
-  { username: "kafka", email: "kakfa@riseup.net" }
+  { username: "kafka", email: "kakfa@riseup.net" },
 ]

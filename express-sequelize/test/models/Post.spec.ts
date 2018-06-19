@@ -1,11 +1,10 @@
 import {expect} from "chai"
-import db, {sequelize, Sequelize} from "../../src/models"
+import db from "../../src/models/index"
 import {postAttrs, userAttrs} from "../fixtures"
-import {pick, keys, get, clone} from "lodash"
+import {pick, keys, clone} from "lodash"
+import {describe, before, beforeEach, after, afterEach, it} from "mocha"
 
 describe("post model", () => {
-  // before(async () => { await sequelize.authenticate() })
-  // after(async () => { await sequelize.close() })
 
   describe("fields", () => {
     let post
@@ -27,17 +26,16 @@ describe("post model", () => {
       post = await db.Post.create({
         ...postAttrs,
         author: clone(userAttrs),
-      },{
+      }, {
         include: [{
-          association: db.Post.author,
-          include: [ db.User.posts ]
-        }]
+          model: db.User, as: "author",
+        }],
       })
     })
     afterEach(async () => {
       await Promise.all([
         db.Post.destroy({where: {}}),
-        db.User.destroy({where: {}})
+        db.User.destroy({where: {}}),
       ])
     })
 
@@ -53,7 +51,7 @@ describe("post model", () => {
 
     it("does not delete author when deleted", async () => {
       const userCount = await db.User.count()
-      post.destroy()
+      post.destroy().catch(console.error)
       expect(await db.User.count()).to.eql(userCount)
     })
   })

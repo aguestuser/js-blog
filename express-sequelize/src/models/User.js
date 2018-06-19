@@ -1,36 +1,37 @@
 'use strict';
 
-import db from "../models"
-
 module.exports = (sequelize, DataTypes) => {
 
-  let user = sequelize.define('user', {
+  let User = sequelize.define('User', {
     username: DataTypes.STRING,
     email: DataTypes.STRING
-  }, {})
+  }, {
+    tableName: "users"
+  })
 
-  user.associate = db => {
+  User.associate = db => {
 
-    user.posts = user.hasMany(db.post, {
+    User.posts = User.hasMany(db.Post, {
+      as: "posts",
       hooks: true,
       onDelete: 'CASCADE',
       foreignKey: 'authorId',
     })
 
-    user.followingsOf = user.hasMany(db.following, {
+    User.followingsOf = User.hasMany(db.Following, {
       as: "followingsOf",
       onDelete: 'CASCADE',
       foreignKey: 'followeeId',
     })
 
-    user.followingsBy = user.hasMany(db.following, {
+    User.followingsBy = User.hasMany(db.Following, {
       as: "followingsBy",
       onDelete: 'CASCADE',
       foreignKey: 'followerId',
     })
 
-    user.followers = user.belongsToMany(
-      db.user, {
+    User.followers = User.belongsToMany(
+      db.User, {
         as: 'followers',
         through: 'followings',
         foreignKey: 'followeeId',
@@ -38,8 +39,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     )
 
-    user.followees = user.belongsToMany(
-      db.user, {
+    User.followees = User.belongsToMany(
+      db.User, {
         as: 'followees',
         through: 'followings',
         foreignKey: 'followerId',
@@ -48,9 +49,9 @@ module.exports = (sequelize, DataTypes) => {
     )
   }
   
-  user.followings = (db, _user) =>
-    db.following.scope({ method: ['forUser', _user ]})
+  User.followings = (db, user) =>
+    db.Following.scope({ method: ['forUser', user]})
   
 
-  return user
+  return User
 }

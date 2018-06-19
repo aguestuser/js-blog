@@ -9,8 +9,8 @@ describe("post model", () => {
 
   describe("fields", () => {
     let post
-    before(async () => post = await db.post.create(postAttrs))
-    after(async () => await db.post.destroy({where: {}}))
+    before(async () => post = await db.Post.create(postAttrs))
+    after(async () => await db.Post.destroy({where: {}}))
 
     it("has a title", () => {
       expect(post.title).to.eql(postAttrs.title)
@@ -24,20 +24,20 @@ describe("post model", () => {
   describe("associations", () => {
     let post
     beforeEach(async () => {
-      post = await db.post.create({
+      post = await db.Post.create({
         ...postAttrs,
         author: clone(userAttrs),
       },{
         include: [{
-          association: db.post.author,
-          include: [ db.user.posts ]
+          association: db.Post.author,
+          include: [ db.User.posts ]
         }]
       })
     })
     afterEach(async () => {
       await Promise.all([
-        db.post.destroy({where: {}}),
-        db.user.destroy({where: {}})
+        db.Post.destroy({where: {}}),
+        db.User.destroy({where: {}})
       ])
     })
 
@@ -48,13 +48,13 @@ describe("post model", () => {
 
     it("belongs to an author (lazy-loaded)", async () => {
       expect(await post.getAuthor())
-        .to.eql(await db.user.findOne({ where: userAttrs }))
+        .to.eql(await db.User.findOne({ where: userAttrs }))
     })
 
     it("does not delete author when deleted", async () => {
-      const userCount = await db.user.count()
+      const userCount = await db.User.count()
       post.destroy()
-      expect(await db.user.count()).to.eql(userCount)
+      expect(await db.User.count()).to.eql(userCount)
     })
   })
 })

@@ -1,11 +1,11 @@
 import {Op} from 'sequelize'
 
 module.exports = (sequelize, DataTypes) => {
-
-  const following = sequelize.define('following', {
+  return sequelize.define('Following', {
     followerId: DataTypes.INTEGER,
     followeeId: DataTypes.INTEGER
-  }, {
+  },{
+    tableName: "followings",
     scopes: {
       forUser: (u) => ({
         where: {
@@ -18,6 +18,4 @@ module.exports = (sequelize, DataTypes) => {
       }),
     }
   })
-
-  return following
 }

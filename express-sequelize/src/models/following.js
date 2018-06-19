@@ -1,14 +1,23 @@
-'use strict';
+import {Op} from 'sequelize'
 
 module.exports = (sequelize, DataTypes) => {
 
   const following = sequelize.define('following', {
     followerId: DataTypes.INTEGER,
     followeeId: DataTypes.INTEGER
-  }, {})
-
-  following.associate = db => {
-  }
+  }, {
+    scopes: {
+      forUser: (u) => ({
+        where: {
+          [Op.or]: [{
+            followerId: u.id,
+          }, {
+            followeeId: u.id,
+          }]
+        }
+      }),
+    }
+  })
 
   return following
 }

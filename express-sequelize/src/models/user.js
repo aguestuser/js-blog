@@ -1,5 +1,7 @@
 'use strict';
 
+import db from "../models"
+
 module.exports = (sequelize, DataTypes) => {
 
   let user = sequelize.define('user', {
@@ -45,6 +47,10 @@ module.exports = (sequelize, DataTypes) => {
       }
     )
   }
+  
+  user.followings = (db, _user) =>
+    db.following.scope({ method: ['forUser', _user ]})
+  
 
   return user
 }

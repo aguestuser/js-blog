@@ -178,9 +178,37 @@ describe("user model", () => {
       expect(await db.user.count()).to.eql(count - 1)
     })
 
-    it("has many followings", async () => {
+    it("has many followingsOf", async () => {
       expect((await user.getFollowingsOf()).length).to.eql(2)
-      expect((await user.getFollowingsBy()).length).to.eql(2)
     })
+  
+    it("has many followingsBy", async () => {
+      expect((await user.getFollowingsOf()).length).to.eql(2)
+    })
+
+    it("has many followings", async () => {
+      expect(await db.user.followings(db, user).count()).to.eql(4)
+      expect(await db.following.scope({ method: ['forUser', user]}).count()).to.eql(4)
+    })
+  })
+  
+  describe("scopes", () => {
+    let user
+  
+    before(async () => {
+      user = await db.user.create({
+        ...userAttrs,
+        followers: followersAttrs,
+        followees: followeesAttrs,
+      },{
+        include: [{
+          association: db.user.followers,
+        }, {
+          association: db.user.followees,
+        }]
+      })
+    })
+
+
   })
 })

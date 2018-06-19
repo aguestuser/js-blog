@@ -11,7 +11,7 @@ export interface UserAttributes extends BaseAttributes {
 }
 export type UserInstance = Instance<UserAttributes> & UserAttributes
 
-export default (sq: Sequelize, dt: DataTypes) => {
+export const userFactory =  (sq: Sequelize, dt: DataTypes) => {
   
   const User = sq.define<UserInstance, UserAttributes>("User", {
     username: dt.STRING,

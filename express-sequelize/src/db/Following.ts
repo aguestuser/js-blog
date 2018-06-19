@@ -10,7 +10,7 @@ export type FollowingAttributes = BaseAttributes & {
 
 export type FollowingInstance = Instance<FollowingAttributes> & FollowingAttributes
 
-export default (sq: Sequelize, dt: DataTypes) => {
+export const followingFactory = (sq: Sequelize, dt: DataTypes) => {
   return sq.define<FollowingInstance, FollowingAttributes>("Following", {
     followerId: dt.INTEGER,
     followeeId: dt.INTEGER,

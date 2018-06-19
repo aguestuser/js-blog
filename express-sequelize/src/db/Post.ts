@@ -11,7 +11,7 @@ export type PostAttributes = BaseAttributes & {
 
 export type PostInstance = Instance<PostAttributes> & PostAttributes
 
-export default (sq: Sequelize, dt: DataTypes) => {
+export const postFactory = (sq: Sequelize, dt: DataTypes) => {
   
   const Post = sq.define<PostInstance, PostAttributes>("Post", {
     title: dt.STRING,

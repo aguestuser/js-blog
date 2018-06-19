@@ -23,7 +23,7 @@ describe("post model", () => {
 
   describe("associations", () => {
     let post
-    before(async () => {
+    beforeEach(async () => {
       post = await db.post.create({
         ...postAttrs,
         author: clone(userAttrs),
@@ -34,7 +34,7 @@ describe("post model", () => {
         }]
       })
     })
-    after(async () => {
+    afterEach(async () => {
       await Promise.all([
         db.post.destroy({where: {}}),
         db.user.destroy({where: {}})

@@ -1,6 +1,6 @@
 import {expect} from "chai"
 import {pick, keys, map, slice, times} from 'lodash'
-import db, {sequelize, Sequelize} from "../../src/models"
+import db, {Sequelize} from "../../src/models"
 import {followeesAttrs, followersAttrs, postAttrs, postsAttrs, userAttrs, usersAttrs} from "../fixtures"
 const {Op} = Sequelize
 
@@ -9,7 +9,7 @@ describe("user model", () => {
   before(async () => {
     userCount = await db.user.count()
   })
-
+  
   describe("CRUD operations", () => {
     let user
     beforeEach(async () => user = await db.user.create(userAttrs))
@@ -124,7 +124,7 @@ describe("user model", () => {
   describe("associations", () => {
     let user
 
-    before(async () => {
+    beforeEach(async () => {
       user = await db.user.create({
         ...userAttrs,
         posts: postsAttrs,
@@ -141,7 +141,7 @@ describe("user model", () => {
       })
     })
 
-    after(async () => {
+    afterEach(async () => {
       await Promise.all([
         db.post.destroy({where: {}}),
         db.user.destroy({where: {}})
@@ -188,27 +188,8 @@ describe("user model", () => {
 
     it("has many followings", async () => {
       expect(await db.user.followings(db, user).count()).to.eql(4)
+      // TODO: test this on following model
       expect(await db.following.scope({ method: ['forUser', user]}).count()).to.eql(4)
     })
-  })
-  
-  describe("scopes", () => {
-    let user
-  
-    before(async () => {
-      user = await db.user.create({
-        ...userAttrs,
-        followers: followersAttrs,
-        followees: followeesAttrs,
-      },{
-        include: [{
-          association: db.user.followers,
-        }, {
-          association: db.user.followees,
-        }]
-      })
-    })
-
-
   })
 })

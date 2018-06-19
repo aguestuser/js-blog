@@ -1,5 +1,5 @@
 import {expect} from "chai"
-import {initDb} from "../../src/models"
+import {initDb} from "../../src/db"
 import {postAttrs, userAttrs} from "../fixtures"
 import {pick, keys, clone} from "lodash"
 import {describe, before, beforeEach, after, afterEach, it} from "mocha"

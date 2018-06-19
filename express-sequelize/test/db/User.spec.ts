@@ -1,10 +1,10 @@
 import {describe, beforeEach, afterEach, it, before, after} from 'mocha'
 import {expect} from "chai"
 import {pick, keys, map, slice, times} from "lodash"
-import {initDb} from "../../src/models"
+import {initDb} from "../../src/db"
 import {Op} from "sequelize"
 import {followeesAttrs, followersAttrs, postAttrs, postsAttrs, userAttrs, usersAttrs} from "../fixtures"
-import {UserAttributes} from "../../src/models/User"
+import {UserAttributes} from "../../src/db/User"
 
 describe("User model", () => {
   let db

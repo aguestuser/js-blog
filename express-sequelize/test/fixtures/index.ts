@@ -1,5 +1,5 @@
-import {UserAttributes} from "../../src/models/User"
-import {PostAttributes} from '../../src/models/Post'
+import {UserAttributes} from "../../src/db/User"
+import {PostAttributes} from '../../src/db/Post'
 
 export const userAttrs: UserAttributes = {
   username: "pynchon",

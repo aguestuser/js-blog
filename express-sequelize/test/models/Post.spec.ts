@@ -1,10 +1,13 @@
 import {expect} from "chai"
-import db from "../../src/models/index"
+import {initDb} from "../../src/models"
 import {postAttrs, userAttrs} from "../fixtures"
 import {pick, keys, clone} from "lodash"
 import {describe, before, beforeEach, after, afterEach, it} from "mocha"
 
-describe("post model", () => {
+describe("Post model", () => {
+  let db
+  before(() => db = initDb())
+  after(async () => await db.sequelize.close())
 
   describe("fields", () => {
     let post

@@ -1,13 +1,16 @@
-import {describe, beforeEach, afterEach, it} from "mocha"
+import {describe, beforeEach, afterEach, it, before, after} from 'mocha'
 import {expect} from "chai"
 import {pick, keys, map, slice, times} from "lodash"
-import db from "../../src/models"
+import {initDb} from "../../src/models"
 import {Op} from "sequelize"
 import {followeesAttrs, followersAttrs, postAttrs, postsAttrs, userAttrs, usersAttrs} from "../fixtures"
 import {UserAttributes} from "../../src/models/User"
 
 describe("User model", () => {
-
+  let db
+  before( async () => db = initDb())
+  after(async () => await db.sequelize.close())
+  
   describe("CRUD operations", () => {
     let user
     beforeEach(async () => {
